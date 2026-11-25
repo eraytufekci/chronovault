@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChronoVault — Privacy Policy</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 740px; margin: 40px auto; padding: 0 20px; color: #1e293b; line-height: 1.65; }
+    h1 { color: #0f172a; margin-bottom: 6px; }
+    h2 { color: #0f172a; margin-top: 28px; }
+    .meta { color: #64748b; font-size: 14px; margin-bottom: 24px; }
+    .box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; }
+  </style>
+</head>
+<body>
+  <h1>ChronoVault Privacy Policy</h1>
+  <p class="meta">Effective Date: November 26, 2026</p>
+
+  <div class="box">
+    <strong>Short version:</strong> ChronoVault processes 100% of your browsing history and bookmarks locally inside your browser. We do not collect, transmit, store, or sell your browsing data, bookmarks, or personal information.
+  </div>
+
+  <h2>1. Data Accessed</h2>
+  <p>ChronoVault requests Chrome's <code>history</code>, <code>bookmarks</code>, <code>downloads</code>, and <code>storage</code> permissions exclusively to provide its core functionality when you open the extension popup:</p>
+  <ul>
+    <li><strong>Browsing History &amp; Bookmarks:</strong> Read locally on your device only when you filter, scan for duplicates, restore a backup file, or export to CSV, Excel (.xlsx), JSON, or HTML. None of this data is ever sent to any external server.</li>
+    <li><strong>Local Storage:</strong> Used solely to remember your optional Pro license activation state inside your browser (<code>chrome.storage.local</code>).</li>
+  </ul>
+
+  <h2>2. Optional Pro License Verification</h2>
+  <p>If you purchase ChronoVault Pro and manually enter a license key, the extension sends only the license key and our public Polar.sh organization identifier to Polar's public license validation API (<code>https://api.polar.sh/v1/customer-portal/license-keys/validate</code>) to confirm whether the key is active. No browsing history, bookmarks, or usage analytics are included in that request.</p>
+
+  <h2>3. Third-Party Services &amp; Analytics</h2>
+  <p>ChronoVault contains no advertising SDKs, no tracking pixels, and no third-party analytics scripts. Purchases of ChronoVault Pro are processed securely by Polar.sh as Merchant of Record under Polar's own privacy policy.</p>
+
+  <h2>4. Contact</h2>
+  <p>If you have any privacy questions, please open an issue on our GitHub repository or contact the developer via the Chrome Web Store support tab.</p>
+</body>
+</html>

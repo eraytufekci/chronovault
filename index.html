@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChronoVault — Export Chrome History &amp; Bookmarks Locally (CSV, Excel, JSON)</title>
+  <meta name="description" content="Export Chrome browsing history and bookmarks 100% locally to CSV, styled Excel (.xlsx), JSON, and HTML. Safe bookmark restore and duplicate cleaner. By ErAI Studio." />
+  <link rel="icon" type="image/png" href="assets/icon128.png" />
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #1e293b;
+      --border: #263248;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --amber: #f59e0b;
+      --green: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: #93c5fd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      background: rgba(11, 17, 32, 0.85);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      z-index: 20;
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: #fff; text-decoration: none; }
+    .brand img { width: 34px; height: 34px; border-radius: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: #fff; text-decoration: none; }
+
+    /* Hero */
+    .hero { padding: 68px 0 48px; text-align: center; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      max-width: 780px;
+      margin: 0 auto 18px;
+      color: #fff;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto 30px;
+    }
+    .cta-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-bottom: 44px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none !important;
+      transition: transform 0.1s ease, filter 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-pro { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0b1120; }
+    .btn-outline { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+
+    .hero-img-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    }
+    .hero-img-wrap img { display: block; width: 100%; height: auto; }
+
+    /* Sections */
+    section { padding: 56px 0; }
+    h2 { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 12px; color: #fff; }
+    .section-sub { text-align: center; color: var(--muted); max-width: 600px; margin: 0 auto 36px; font-size: 15.5px; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+    .card p { font-size: 14px; color: var(--muted); }
+
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; max-width: 780px; margin: 0 auto; }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .price-card.featured {
+      border-color: rgba(245, 158, 11, 0.6);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, var(--surface) 45%);
+    }
+    .price-tier { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #93c5fd; }
+    .price-card.featured .price-tier { color: #fbbf24; }
+    .price-amount { font-size: 38px; font-weight: 800; color: #fff; line-height: 1.1; }
+    .price-amount span { font-size: 15px; font-weight: 500; color: var(--muted); }
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: 9px; font-size: 14px; color: #e2e8f0; margin-bottom: 10px; }
+    .check-list li::before { content: "✓ "; color: var(--green); font-weight: 800; }
+
+    /* FAQ / Policy */
+    .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+    .footer-links { display: flex; gap: 20px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a class="brand" href="#">
+        <img src="assets/icon128.png" alt="ChronoVault logo" />
+        <span>ChronoVault</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="hero">
+      <div class="pill">100% Local Processing • Zero Cloud Uploads</div>
+      <h1>Export Chrome History &amp; Bookmarks Locally.</h1>
+      <p class="hero-sub">
+        Generate native CSV, styled Excel (.xlsx), JSON, and HTML exports right inside your browser. No external websites, no subscriptions, no privacy compromises.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-pro" href="https://buy.polar.sh/polar_cl_BxCBSwiBvkDd0YDWqH3nzjuAkCSPa1FEr8S1u0SdhCd" target="_blank" rel="noopener noreferrer">
+          Get ChronoVault Pro — $9.99 One-Time
+        </a>
+        <a class="btn btn-outline" href="#pricing">Compare Free vs. Pro</a>
+      </div>
+      <div class="hero-img-wrap">
+        <img src="assets/screenshot-hero-1280x800.png" alt="ChronoVault Chrome Extension Dashboard Preview" />
+      </div>
+    </header>
+
+    <section id="features">
+      <h2>Built for Speed, Reliability &amp; Privacy</h2>
+      <p class="section-sub">Everything runs natively on Chrome's official Manifest V3 APIs right on your computer.</p>
+      <div class="features-grid">
+        <div class="card">
+          <h3>Native Styled Excel (.xlsx)</h3>
+          <p>Export real Microsoft Excel &amp; Google Sheets workbooks locally with frozen bold headers, auto-filters, and a Top 15 Domains analytics summary sheet.</p>
+        </div>
+        <div class="card">
+          <h3>UTF-8 CSV, JSON &amp; HTML</h3>
+          <p>RFC-4180 compliant CSV with UTF-8 BOM (no garbled international characters), clean JSON backups, and universal Netscape Bookmark HTML.</p>
+        </div>
+        <div class="card">
+          <h3>Smart Date &amp; Domain Filters</h3>
+          <p>Filter history by Today, 7/30/90 days, All Time, or custom date ranges. Search by keyword, sort by most visited, or exclude noisy domains.</p>
+        </div>
+        <div class="card">
+          <h3>Safe Bookmark Restore</h3>
+          <p>Import ChronoVault JSON or standard browser HTML backups into a clean timestamped folder. Your existing bookmarks are never overwritten.</p>
+        </div>
+        <div class="card">
+          <h3>Duplicate Bookmark Cleaner</h3>
+          <p>Scan your entire bookmark library for exact, trailing-slash, and hash duplicates, preserve the oldest copy, and remove extras in one click.</p>
+        </div>
+        <div class="card">
+          <h3>Zero Tracking, Zero Uploads</h3>
+          <p>Your browsing history and bookmarks never leave your device. No analytics SDKs, no ads, and no redirecting to external converter websites.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2>Simple, Transparent Pricing</h2>
+      <p class="section-sub">Start free with no account required. Upgrade once for unlimited lifetime power.</p>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Free Forever</div>
+          <div class="price-amount">$0 <span>/ forever</span></div>
+          <ul class="check-list">
+            <li>Export up to 500 history items or bookmarks</li>
+            <li>Local CSV, JSON &amp; Netscape HTML export</li>
+            <li>Date range, folder &amp; keyword search filters</li>
+            <li>Free duplicate bookmark scanner</li>
+            <li>100% local &amp; private</li>
+          </ul>
+        </div>
+        <div class="price-card featured">
+          <div class="price-tier">ChronoVault Pro</div>
+          <div class="price-amount">$9.99 <span>one-time</span></div>
+          <ul class="check-list">
+            <li><strong>Unlimited</strong> history &amp; bookmark exports</li>
+            <li><strong>Native Excel (.xlsx)</strong> with styled Summary sheet</li>
+            <li><strong>One-click Safe Bookmark Restore</strong> (JSON &amp; HTML)</li>
+            <li><strong>One-click Duplicate Bookmark Cleaner</strong></li>
+            <li><strong>Domain Exclusion Filters</strong></li>
+            <li>Lifetime license key for up to 5 devices (via Polar.sh)</li>
+          </ul>
+          <a class="btn btn-pro" href="https://buy.polar.sh/polar_cl_BxCBSwiBvkDd0YDWqH3nzjuAkCSPa1FEr8S1u0SdhCd" target="_blank" rel="noopener noreferrer">
+            Buy Lifetime License — $9.99
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="card">
+          <h3>Is this a subscription?</h3>
+          <p>No. ChronoVault Pro is a single $9.99 one-time payment that gives you a lifetime license key usable on up to 5 browsers/devices.</p>
+        </div>
+        <div class="card">
+          <h3>Does my history ever leave my computer?</h3>
+          <p>Never. All CSV, JSON, HTML, and Excel (.xlsx) files are generated locally inside Chrome. The only optional network request is verifying your Polar.sh license key if you activate Pro.</p>
+        </div>
+        <div class="card">
+          <h3>How do I activate Pro after purchase?</h3>
+          <p>Polar.sh immediately emails your license key (starting with <code>CVPRO-</code>). Click the badge in the top-right of ChronoVault, paste your key, and click Activate.</p>
+        </div>
+        <div class="card">
+          <h3>Refunds &amp; Support</h3>
+          <p>Payments and tax invoices are handled securely by Polar.sh. If anything doesn't work as expected, reach out within 14 days for prompt support or a full refund.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>&copy; 2026 ErAI Studio — ChronoVault</div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="https://buy.polar.sh/polar_cl_BxCBSwiBvkDd0YDWqH3nzjuAkCSPa1FEr8S1u0SdhCd" target="_blank" rel="noopener noreferrer">Buy Pro</a>
+        <a href="https://github.com/eraytufekci/chronovault" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
